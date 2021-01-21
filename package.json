@@ -1,0 +1,30 @@
+{
+  "name": "animekun",
+  "productName": "animekun",
+  "version": "0.1.0",
+  "main": "main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "tsc -p electron-src",
+    "pack-app": "yarn build && electron-builder --dir",
+    "dist": "yarn build && electron-builder",
+    "type-check": "tsc"
+  },
+  "build": {
+    "asar": true,
+    "files": [
+      "main"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "electron": "^7.1.7",
+    "electron-builder": "^21.2.0",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.1.0"
+  },
+  "license": "MIT"
+}

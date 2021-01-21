@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>animekun</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="video-container">
+        <video id="video"></video>
+    </div>
+    <div>
+        <input type="range" id="seekbar" value="0" min="0" max="1000" oninput="seek(this.value)">
+    </div>
+</body>
+<script>
+const video = document.getElementById('video')
+const canvas = document.createElement('canvas')
+
+function loadVideo() {
+    const inputFile = (new URLSearchParams(window.location.search)).get('inputFile')
+    console.log('input file', inputFile)
+    if (inputFile) {
+        video.src = 'file:' + inputFile
+    }
+}
+loadVideo();
+
+function capture() {
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+    window.ipcRenderer.send('copy', { dataUrl: canvas.toDataURL() })
+}
+
+function seek(seekVal) {
+    video.currentTime = video.duration * (seekVal / 1000.0)
+}
+
+// seek
+window.addEventListener('keydown', (ev) => {
+    video.blur();
+    if (ev.keyCode == 37) {
+        // left
+        video.currentTime -= 0.1;
+    } else if (ev.keyCode == 39) {
+        // right
+        video.currentTime += 0.1;
+    }
+})
+window.addEventListener('keypress', e => {
+    if (e.key == 'c') {
+        capture();
+    }
+})
+
+</script>
+</html>
