@@ -5,7 +5,7 @@
 
 ## Usage
 
-1. Run animekun with video file apth
+1. Run animekun with video file path
 
 ```
 animekun /path/to/video.mp4
